@@ -707,7 +707,7 @@ namespace BW_tool
 			
 			private UInt32[] legendaries  = new UInt32[8];
 			
-			public int[] legit_pk_index = new int[]{0, 79, 120, 137, 163, 174, 175, 213, 238, 280, 333, 374, 425, 436, 442, 447, 479, 517, 531};
+			public int[] legit_pk_index = new int[]{0, 79, 120, 137, 163, 174, 175, 213, 238, 280, 333, 374, 425, 436, 442, 447, 479, 517, 561};
 			public int[] legit_item_index = new int[]{0, 72, 73, 74, 75, 51, 154, 28, 29, 80, 109, 81, 82, 83, 84, 85, 91, 93, 270, 275, 538, 44, 50, 221};
 			
 			public bool illegal;
