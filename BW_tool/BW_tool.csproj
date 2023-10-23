@@ -50,60 +50,88 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editors\DLC.cs" />
+    <Compile Include="Editors\DLC.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\DLC.Designer.cs">
       <DependentUpon>DLC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\DreamRadar.cs" />
+    <Compile Include="Editors\DreamRadar.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\DreamRadar.Designer.cs">
       <DependentUpon>DreamRadar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\Entralink_DreamWorld.cs" />
+    <Compile Include="Editors\Entralink_DreamWorld.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\Entralink_DreamWorld.Designer.cs">
       <DependentUpon>Entralink_DreamWorld.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\Propcase.cs" />
+    <Compile Include="Editors\Propcase.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\Propcase.Designer.cs">
       <DependentUpon>Propcase.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\Join_avenue.cs" />
+    <Compile Include="Editors\Join_avenue.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\Join_avenue.Designer.cs">
       <DependentUpon>Join_avenue.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\KeySystem.cs" />
+    <Compile Include="Editors\KeySystem.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\KeySystem.Designer.cs">
       <DependentUpon>KeySystem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\MemoryLink.cs" />
+    <Compile Include="Editors\MemoryLink.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\MemoryLink.Designer.cs">
       <DependentUpon>MemoryLink.cs</DependentUpon>
     </Compile>
     <Compile Include="Editors\Text.cs" />
-    <Compile Include="Editors\Dumper.cs" />
+    <Compile Include="Editors\Dumper.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\Dumper.Designer.cs">
       <DependentUpon>Dumper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\Entralink.cs" />
+    <Compile Include="Editors\Entralink.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\Entralink.Designer.cs">
       <DependentUpon>Entralink.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\Grotto.cs" />
+    <Compile Include="Editors\Grotto.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\Grotto.Designer.cs">
       <DependentUpon>Grotto.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\Medals.cs" />
+    <Compile Include="Editors\Medals.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\Medals.Designer.cs">
       <DependentUpon>Medals.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\TrainerInfo.cs" />
+    <Compile Include="Editors\TrainerInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\TrainerInfo.Designer.cs">
       <DependentUpon>TrainerInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editors\TrainerRec.cs" />
+    <Compile Include="Editors\TrainerRec.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Editors\TrainerRec.Designer.cs">
       <DependentUpon>TrainerRec.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
@@ -116,10 +144,7 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Editors" />
-    <Folder Include="SAV" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Editors\DLC.resx">
       <DependentUpon>DLC.cs</DependentUpon>

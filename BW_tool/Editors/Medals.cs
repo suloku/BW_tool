@@ -34,9 +34,7 @@ namespace BW_tool
 			month.Value = medals.Month;
 			year.Value = medals.Year;
 			*/
-			flag1box.Checked = medals.Flag1;
-			flag2box.Checked = medals.Flag2;
-			flag3box.Checked = medals.Flag3;
+			update_medal_state();
 			flag4box.Checked = medals.Flag4;
 			
 			//MessageBox.Show(medal_date.Value.Year.ToString());
@@ -90,15 +88,13 @@ namespace BW_tool
 			}
 			
 			update_date();
-			
+
 			/*
 			day.Value = medals.Day;
 			month.Value = medals.Month;
 			year.Value = medals.Year;
 			*/
-			flag1box.Checked = medals.Flag1;
-			flag2box.Checked = medals.Flag2;
-			flag3box.Checked = medals.Flag3;
+			update_medal_state();
 			flag4box.Checked = medals.Flag4;
 		}
 		
@@ -159,21 +155,6 @@ namespace BW_tool
 			MainForm.save.setBlock(medals.Data, 68);
 			this.Close();
 		}
-		void Flag1boxCheckedChanged(object sender, EventArgs e)
-		{
-			medals.Flag1 = flag1box.Checked;
-			update_hex();
-		}
-		void Flag2boxCheckedChanged(object sender, EventArgs e)
-		{
-			medals.Flag2 = flag2box.Checked;
-			update_hex();
-		}
-		void Flag3boxCheckedChanged(object sender, EventArgs e)
-		{
-			medals.Flag3 = flag3box.Checked;
-			update_hex();
-		}
 		void Flag4boxCheckedChanged(object sender, EventArgs e)
 		{
 			medals.Flag4 = flag4box.Checked;
@@ -214,9 +195,7 @@ namespace BW_tool
 			medals.Flag3 = false;
 			medals.Flag4 = false;
 			update_date();
-			flag1box.Checked = medals.Flag1;
-			flag2box.Checked = medals.Flag2;
-			flag3box.Checked = medals.Flag3;
+			update_medal_state();
 			flag4box.Checked = medals.Flag4;
 		}
 		void update_hex()
@@ -224,55 +203,100 @@ namespace BW_tool
 			date_hex.Text = (medals.medal_bytes & 0x0000FFFF).ToString("X4");
 			flag_hex.Text = ((medals.medal_bytes & 0xFFFF0000)>>4).ToString("X4");
 		}
-	public class MEDAL
-	    {
+
+		private void medalState_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (medalState.SelectedIndex == 0)
+			{
+				medals.Flag1 = false;
+				medals.Flag2 = false;
+				medals.Flag3 = false;
+			}
+			else if (medalState.SelectedIndex == 1)
+			{
+				medals.Flag1 = true;
+				medals.Flag2 = false;
+				medals.Flag3 = false;
+			}
+			else if (medalState.SelectedIndex == 2)
+			{
+				medals.Flag1 = false;
+				medals.Flag2 = true;
+				medals.Flag3 = false;
+			}
+			else if (medalState.SelectedIndex == 3)
+			{
+				medals.Flag1 = true;
+				medals.Flag2 = true;
+				medals.Flag3 = false;
+			}
+			else if (medalState.SelectedIndex == 4)
+			{
+				medals.Flag1 = false;
+				medals.Flag2 = false;
+				medals.Flag3 = true;
+			}
+			update_hex();
+		}
+
+		private void update_medal_state()
+		{
+			if (!medals.Flag1 && !medals.Flag2 && !medals.Flag3) medalState.SelectedIndex = 0;
+			else if (medals.Flag1 && !medals.Flag2 && !medals.Flag3) medalState.SelectedIndex = 1;
+			else if (!medals.Flag1 && medals.Flag2 && !medals.Flag3) medalState.SelectedIndex = 2;
+			else if (medals.Flag1 && medals.Flag2 && !medals.Flag3) medalState.SelectedIndex = 3;
+			else if (!medals.Flag1 && !medals.Flag2 && medals.Flag3) medalState.SelectedIndex = 4;
+		}
+
+		public class MEDAL
+		{
 			internal int MedalSize = 4;
 			internal int Size = MainForm.save.getBlockLength(68);
-	
-	        public byte[] Data;
-	        public MEDAL(byte[] data = null)
-	        {
-	            Data = data ?? new byte[Size];
-	        }
-	        private int index = 0;
+			
+			public byte[] Data;
+			public MEDAL(byte[] data = null)
+			{
+				Data = data ?? new byte[Size];
+			}
+			private int index = 0;
 			public int Index {
-	        	get { return index/4; }
-	        	set { if ((value >= 0) && (value < 256)){ index = (int)(value*MedalSize);} } }
-	        
-	        private UInt16 build_date(int day, int month, int year)
-	        {
-        	
-	        	return (UInt16) ( ((day & 0x1F) << 11) | ((month & 0x0F) << 7) | (year & 0x7F)  );
-	        }
-	        
-	        public UInt32 medal_bytes { get { return (BitConverter.ToUInt32(Data, index));} }
+				get { return index/MedalSize; }
+				set { if ((value >= 0) && (value < 256)){ index = (int)(value*MedalSize);} } 
+			}
+					
+			private UInt16 build_date(int day, int month, int year)
+			{
+				return (UInt16) ( ((day & 0x1F) << 11) | ((month & 0x0F) << 7) | (year & 0x7F)  );
+			}
+					
+			public UInt32 medal_bytes { get { return (BitConverter.ToUInt32(Data, index));} }
 
-	        public int Day {
-	        	get { return (BitConverter.ToUInt16(Data, index)) >> 11; }
-	        	set { BitConverter.GetBytes(build_date(value, Month, Year)).CopyTo(Data, index); } }
-	        public int Month {
-	        	get { return (BitConverter.ToUInt16(Data, index) & 0x0780) >> 7; }
-	            set { BitConverter.GetBytes(build_date(Day, value, Year)).CopyTo(Data, index); } }
-	        public int Year {
-	        	get { return (BitConverter.ToUInt16(Data, index) & 0x007F); }
-	            set { BitConverter.GetBytes(build_date(Day, Month, value)).CopyTo(Data, index); } }
-	        public UInt16 Flags {
-	        	get { return BitConverter.ToUInt16(Data, index+0x02); }
-	            set { BitConverter.GetBytes((UInt16)value).CopyTo(Data, index+0x2); } }
-	        
-        	public bool Flag1{
-	        	get { return Convert.ToBoolean(Flags&0x1); }
-	        	//set { Flags = (UInt16)(Convert.ToByte(value) | (Flags & ~(0x1))); } }
-	        	set { if (value == true) Flags = (UInt16)( Flags|0x1); else Flags = (UInt16)(Flags & ~(0x1)); } }
-        	public bool Flag2{
-	        	get { return Convert.ToBoolean(Flags&0x2); }
-	        	set { if (value == true) Flags = (UInt16)(Flags|0x2); else Flags = (UInt16)(Flags & ~(0x2)); } }
-        	public bool Flag3{
-	        	get { return Convert.ToBoolean(Flags&0x4); }
-	        	set { if (value == true) Flags = (UInt16)(Flags|0x4); else Flags = (UInt16)(Flags & ~(0x4)); } }
-        	public bool Flag4{
-	        	get { return Convert.ToBoolean(Flags&0x8); }
-	        	set { if (value == true) Flags = (UInt16)(Flags|0x8); else Flags = (UInt16)(Flags & ~(0x8)); } }
+			public int Day {
+				get { return (BitConverter.ToUInt16(Data, index)) >> 11; }
+				set { BitConverter.GetBytes(build_date(value, Month, Year)).CopyTo(Data, index); } }
+			public int Month {
+				get { return (BitConverter.ToUInt16(Data, index) & 0x0780) >> 7; }
+				set { BitConverter.GetBytes(build_date(Day, value, Year)).CopyTo(Data, index); } }
+			public int Year {
+				get { return (BitConverter.ToUInt16(Data, index) & 0x007F); }
+				set { BitConverter.GetBytes(build_date(Day, Month, value)).CopyTo(Data, index); } }
+			public UInt16 Flags {
+				get { return BitConverter.ToUInt16(Data, index+0x02); }
+				set { BitConverter.GetBytes((UInt16)value).CopyTo(Data, index+0x2); } }
+					
+			public bool Flag1 {
+				get { return Convert.ToBoolean(Flags&0x1); }
+				//set { Flags = (UInt16)(Convert.ToByte(value) | (Flags & ~(0x1))); } }
+				set { if (value == true) Flags = (UInt16)( Flags|0x1); else Flags = (UInt16)(Flags & ~(0x1)); } }
+			public bool Flag2 {
+				get { return Convert.ToBoolean(Flags&0x2); }
+				set { if (value == true) Flags = (UInt16)(Flags|0x2); else Flags = (UInt16)(Flags & ~(0x2)); } }
+			public bool Flag3 {
+				get { return Convert.ToBoolean(Flags&0x4); }
+				set { if (value == true) Flags = (UInt16)(Flags|0x4); else Flags = (UInt16)(Flags & ~(0x4)); } }
+			public bool Flag4 {
+				get { return Convert.ToBoolean(Flags&0x8); }
+				set { if (value == true) Flags = (UInt16)(Flags|0x8); else Flags = (UInt16)(Flags & ~(0x8)); } }
 		}
 	}
 }
